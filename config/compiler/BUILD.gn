@@ -1,0 +1,78 @@
+# Copyright (c) 2016, Google Inc.
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+
+config("default_include_dirs") {
+  include_dirs = [
+    "//",
+    root_gen_dir,
+  ]
+}
+
+config("compiler") {
+  cflags = []
+  cflags_c = []
+  cflags_cc = []
+  ldflags = []
+  defines = []
+
+  cflags_cc += [
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-fvisibility-inlines-hidden",
+  ]
+
+  cflags_c += [ "-std=c11" ]
+  cflags_cc += [ "-std=c++11" ]
+}
+
+config("default_warnings") {
+  cflags = [
+    "-Wall",
+    "-Werror",
+    "-Wextra",
+    "-Wno-missing-field-initializers",
+    "-Wno-unused-parameter",
+  ]
+}
+
+config("optimize") {
+  cflags = [
+    "-fdata-sections",
+    "-ffunction-sections",
+  ]
+
+  ldflags = [
+    "-Wl,-O1",
+    "-Wl,--as-needed",
+    "-Wl,--gc-sections",
+  ]
+
+  cflags += [ "-O2" ]
+}
+
+config("no_optimize") {
+  cflags = [ "-O0" ]
+}
+
+config("symbols") {
+  cflags = [ "-g2" ]
+}
+
+config("minimal_symbols") {
+  cflags = [ "-g1" ]
+}
+
+config("no_symbols") {
+  cflags = [ "-g0" ]
+}

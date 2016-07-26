@@ -1,0 +1,52 @@
+# Copyright (c) 2016, Google Inc.
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+
+declare_args() {
+  is_debug = true
+}
+
+_default_configs = [
+  "//build/config/compiler:compiler",
+  "//build/config/compiler:default_include_dirs",
+  "//build/config/compiler:default_warnings",
+]
+
+if (is_debug) {
+  _default_configs += [
+    "//build/config:debug",
+    "//build/config/compiler:no_optimize",
+    "//build/config/compiler:symbols",
+  ]
+} else {
+  _default_configs += [
+    "//build/config:release",
+    "//build/config/compiler:optimize",
+    "//build/config/compiler:no_symbols",
+  ]
+}
+
+set_defaults("executable") {
+  configs = _default_configs
+}
+
+set_defaults("static_library") {
+  configs = _default_configs
+}
+
+set_defaults("source_set") {
+  configs = _default_configs
+}
+
+set_default_toolchain("//build/toolchain/gcc")
+
